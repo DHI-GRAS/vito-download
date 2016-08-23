@@ -1,5 +1,6 @@
 import os
 import glob
+import tempfile
 import subprocess
 import re
 import logging
@@ -16,9 +17,10 @@ def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(message)s')
-        #formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         ch.setFormatter(formatter)
         logger.addHandler(ch)
+
+    download_subdir = tempfile.mkdtemp(dir=download_dir)
 
     # put together command
     cmd = [wget_exe]
@@ -26,7 +28,7 @@ def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
     cmd += ['--recursive']
     cmd += ['--ignore-case', '--accept="*{}"'.format(data_ext)]
     cmd += ['--continue']
-    cmd += ['--no-directories', '--directory-prefix='+download_dir]
+    cmd += ['--no-directories', '--directory-prefix='+download_subdir]
     cmd += [url]
 
     # join cmd to string to preserve the glob pattern!
@@ -65,6 +67,6 @@ def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
             # fail on errors
             raise RuntimeError('Download of {} failed: {}'.format(url, line.rstrip()))
 
-    pattern = os.path.join(download_dir, '*'+data_ext)
+    pattern = os.path.join(download_subdir, '*'+data_ext)
     downloaded_files = sorted(glob.glob(pattern))
     return downloaded_files
