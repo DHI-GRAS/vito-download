@@ -1,13 +1,6 @@
 import posixpath
 
-
-datapool_url = 'http://land.copernicus.vgt.vito.be/PDF///datapool/'
-
-product_base_urls = {
-        'SWI': 'Water/Soil_Water/SWI_V3',
-        'SWI_10': 'Water/Soil_Water/SWI10_V3',
-                    }
-
+from .config import datapool_url, product_base_urls
 
 def get_product_url(product):
     return posixpath.join(datapool_url, product_base_urls[product])
