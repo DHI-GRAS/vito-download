@@ -6,6 +6,7 @@ import re
 import logging
 
 wget_exe = os.path.join(os.path.dirname(__file__), 'wget64.exe')
+wget_exe = '"{}"'.format(wget_exe)
 
 def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
         logger=None):
@@ -28,7 +29,7 @@ def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
     cmd += ['--recursive']
     cmd += ['--ignore-case', '--accept="*{}"'.format(data_ext)]
     cmd += ['--continue']
-    cmd += ['--no-directories', '--directory-prefix='+download_subdir]
+    cmd += ['--no-directories', '--directory-prefix=\"{}\"'.format(download_subdir)]
     cmd += [url]
 
     # join cmd to string to preserve the glob pattern!
