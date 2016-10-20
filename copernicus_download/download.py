@@ -21,7 +21,7 @@ def download_data(url, username, password, download_dir='.', data_ext='.ZIP',
         ch.setFormatter(formatter)
         logger.addHandler(ch)
 
-    download_subdir = tempfile.mkdtemp(dir=download_dir)
+    download_subdir = tempfile.mkdtemp(prefix='download_', dir=download_dir)
 
     # put together command
     cmd = [wget_exe]
