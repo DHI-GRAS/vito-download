@@ -53,7 +53,7 @@ def date_from_h5fname(fname):
     return datetime.datetime.strptime(datestr, '%Y%m%d')
 
 
-def read_h5(h5fname, group, varn, variable_meta={}, gridkw={}):
+def read_h5(h5fname, group, varn, gridkw={}):
     """Get data from a Copernicus HDF5 file
 
     Parameters
@@ -64,9 +64,6 @@ def read_h5(h5fname, group, varn, variable_meta={}, gridkw={}):
         group and variable in HDF file
     outfname : str
         path to output file to be created
-    variable_meta : dict
-        target variable name, units, long_name
-        if not provided, info from HDF file will be used
     gridkw : dict
         grid definition res_deg, lon0, lat0
         will be retrieved from HDF file if not provided
@@ -82,12 +79,6 @@ def read_h5(h5fname, group, varn, variable_meta={}, gridkw={}):
         # date = datetime.datetime.strptime(dsin.Product_time[:8], '%Y%m%d')
         date = date_from_h5fname(h5fname)
 
-        meta = dict(
-                name=varn,
-                units=datavar.Units,
-                long_name=datavar.Product)
-        meta.update(variable_meta)
-
         # get grid
         lon, lat = get_lon_lat(dsin, datavar.shape, gridkw)
         gridshape = (len(lat), len(lon))
@@ -101,15 +92,18 @@ def read_h5(h5fname, group, varn, variable_meta={}, gridkw={}):
         data -= datavar.Offset
         data *= datavar.Scaling_factor
 
-        # get global attributes
+        # get attributes
+        attrs = dict(
+                units=datavar.Units,
+                long_name=datavar.Product)
         global_attrs = {k:dsin.getncattr(k) for k in dsin.ncattrs()}
 
     da = xr.DataArray(
             data[np.newaxis, ...],
             coords=dict(lon=lon, lat=lat, time=[date]),
             dims=['time', 'lat', 'lon'],
-            name=meta.pop('name'),
-            attrs=meta)
+            name=varn,
+            attrs=attrs)
     ds = da.to_dataset()
     ds.attrs.update(global_attrs)
 
