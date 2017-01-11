@@ -1,13 +1,30 @@
 # copernicus_download
 Download http://land.copernicus.vgt.vito.be/PDF/datapool
 
+## Installation
+
+You need to have [`wget_provider`](https://github.com/DHI-GRAS/wget_provider) installed. Then run
+
+    python setup.py install
+
+To use the `read_h5` module, you also need `xarray` and `netCDF4`.
+
+
 ## Usage
 
 ```
 import copernicus_download as codo
-url = codo.build_url(product='SWI', year=2016, month=1)
+
+url = codo.build_url(product='SWI', year=2016, month=1, day=1)
+
 local_files = codo.download_data(url, username='user', password='pass', 
                                  download_dir='.', data_ext='.ZIP')
+
+h5fname = codo.extract_h5(local_files[0], '.')
+
+from copernicus_download.read_h5 import read_h5  # requires netCDF4 and xarray
+
+data = read_h5(h5fname, group='SWI', varn='SWI_100')
 ```
 
 ## Extent
