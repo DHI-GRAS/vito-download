@@ -4,7 +4,6 @@ import logging
 from wget_provider import download_url
 
 logger = logging.getLogger('copernicus_download.download')
-download_url.logger = logger
 
 def download_data(url, username, password, download_dir='.', data_ext='.ZIP'):
     """Download a url with login using wget"""
