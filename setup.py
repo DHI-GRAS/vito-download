@@ -11,4 +11,4 @@ setup(
     install_requires=[
         'wget_provider'],
     dependency_links=[
-        'https://github.com/DHI-GRAS/wget_provider.git'])
+        'https://github.com/DHI-GRAS/wget_provider/archive/v0.1.tar.gz#egg=wget_provider-0.1'])
