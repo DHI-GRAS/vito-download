@@ -12,9 +12,9 @@ def build_url(product, year, month=None, day=None, extent={}):
     url += '/{}'.format(year)
 
     if month:
-        url += '/{:02d}'.format(month)
+        url += '/{}'.format(month)
         if day:
-            url += '/{:02d}'.format(day)
+            url += '/{}'.format(day)
 
     if extent:
         url += '/?coord{xmin},{ymin},{xmax},{ymax}'.format(**extent)
