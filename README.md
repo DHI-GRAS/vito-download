@@ -1,9 +1,9 @@
 # copernicus_download
-Download http://land.copernicus.vgt.vito.be/PDF/datapool
+Download from http://land.copernicus.vgt.vito.be/PDF/datapool
 
 ## Installation
 
-You need to have [`wget_provider`](https://github.com/DHI-GRAS/wget_provider) installed. Then run
+You need to have [`itsybitsy`](https://github.com/DHI-GRAS/itsybitsy) installed. Then run
 
     python setup.py install
 
@@ -17,8 +17,8 @@ import copernicus_download as codo
 
 url = codo.build_url(product='SWI', year=2016, month=1, day=1)
 
-local_files = codo.download_data(url, username='user', password='pass', 
-                                 download_dir='.', data_ext='.ZIP')
+local_files = codo.download_data(url, username='user', password='pass',
+                                 download_dir='.', include='*.zip')
 
 h5fname = codo.extract_h5(local_files[0], '.')
 
@@ -38,4 +38,4 @@ From the manual:
 > ?coord=XLL,YLL,XUR,YUR
 > where (XLL,YLL) is the LonLat coordinates of the lower-left corner of the boundingBox and (XUR,YUR)
 > is the LonLat coordinates of the upper-right corner. E.g. ?coord=-10.1,-5.1,10.0,5.0
-> Note: the coord parameter is only supported for PROBA-V synthesis products. 
+> Note: the coord parameter is only supported for PROBA-V synthesis products.
