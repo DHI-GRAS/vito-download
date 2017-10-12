@@ -14,7 +14,7 @@ except ImportError:
 import requests
 import itsybitsy
 
-logger = logging.getLogger('copernicus_download.download')
+logger = logging.getLogger(__name__)
 
 
 def _download_file(url, target, session, max_retries=10):
@@ -36,7 +36,7 @@ def _download_file(url, target, session, max_retries=10):
 
 
 def _recursive_download(base_url, download_directory=".", username=None, password=None,
-                       include=None, exclude=None, download_jobs=10, crawler_args=None):
+                        include=None, exclude=None, download_jobs=10, crawler_args=None):
     """Concurrent recursive downloader using the itsybitsy crawler
 
     Arguments
@@ -88,16 +88,22 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                 url_parts = urlparse.urlparse(url)
                 file_path = url_parts.path
                 if not file_path.startswith(base_path):
-                    warnings.warn("File {} does not match base path {} - skipping".format(file_path, base_path))
+                    warnings.warn(
+                            "File {} does not match base path {} - skipping"
+                            .format(file_path, base_path))
                     continue
 
                 target_localpath = os.path.normpath(file_path[len(base_path):])
                 target_fullpath = os.path.join(download_directory, target_localpath)
 
-                if include and not any(fnmatch.fnmatch(target_localpath, pattern) for pattern in include):
+                if (
+                        include and not
+                        any(fnmatch.fnmatch(target_localpath, pattern) for pattern in include)):
                     logger.debug(">> skipping due to include pattern")
                     continue
-                if exclude and any(fnmatch.fnmatch(target_localpath, pattern) for pattern in exclude):
+                if (
+                        exclude and
+                        any(fnmatch.fnmatch(target_localpath, pattern) for pattern in exclude)):
                     logger.debug(">> skipping due to exclude pattern")
                     continue
 
@@ -133,7 +139,7 @@ def download_data(url, username, password, download_dir='.', include='*.zip'):
         (default: all .zip files)
     """
 
-    crawler_args = dict( # passed to itsybitsy
+    crawler_args = dict(  # passed to itsybitsy
         only_go_deeper=True,
         max_depth=None,
         max_retries=10,

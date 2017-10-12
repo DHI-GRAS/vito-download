@@ -83,7 +83,8 @@ def read_h5(h5fname, group, varn, gridkw={}):
         lon, lat = get_lon_lat(dsin, datavar.shape, gridkw)
         gridshape = (len(lat), len(lon))
         if gridshape != datavar.shape:
-            raise ValueError('Derived grid has different shape {} '
+            raise ValueError(
+                    'Derived grid has different shape {} '
                     'than data {}.'.format(gridshape, datavar.shape))
 
         # get data (working format: f4)
@@ -96,7 +97,7 @@ def read_h5(h5fname, group, varn, gridkw={}):
         attrs = dict(
                 units=datavar.Units,
                 long_name=datavar.Product)
-        global_attrs = {k:dsin.getncattr(k) for k in dsin.ncattrs()}
+        global_attrs = {k: dsin.getncattr(k) for k in dsin.ncattrs()}
 
     da = xr.DataArray(
             data[np.newaxis, ...],
