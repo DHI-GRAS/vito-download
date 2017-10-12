@@ -1,6 +1,6 @@
 import datetime
 
-datapool_url = 'http://land.copernicus.vgt.vito.be/PDF/////datapool/'
+datapool_url = 'http://land.copernicus.vgt.vito.be/PDF/datapool/'
 
 product_base_urls = {
         'Water_Bodies_Global': 'Water/Water_Bodies/Water_Bodies_Global_V2',
