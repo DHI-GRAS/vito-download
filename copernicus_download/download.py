@@ -49,10 +49,12 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
         Username required for authentication (default: no authentication)
     password : str
         Password required for authentication (default: no authentication)
-    include : glob pattern
-        Download only matching files (default: download all files)
-    exclude : glob pattern
-        Do not download matching files (default: download all files)
+    include : list of str or str
+        Download only files matching at least one of those glob patterns
+        (default: download all files)
+    exclude : list of str or str
+        Do not download files matching at least one of those glob patterns
+        (default: download all files)
     download_jobs : int
         Number of concurrent jobs used for downloading files (default: 10)
     crawler_args : dict
@@ -126,8 +128,9 @@ def download_data(url, username, password, download_dir='.', include='*.zip'):
         Password for authentication
     download_dir : str
         Directory to save downloaded files to (default: current directory)
-    include : glob pattern
-        Download only files matching this pattern (default: all .zip files)
+    include : list of str or str
+        Download only files matching at least one of those glob patterns
+        (default: all .zip files)
     """
 
     crawler_args = dict( # passed to itsybitsy
