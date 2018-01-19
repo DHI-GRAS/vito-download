@@ -12,6 +12,7 @@ except ImportError:
     import urlparse
 
 import requests
+
 import itsybitsy
 
 logger = logging.getLogger(__name__)
@@ -65,22 +66,20 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
     if crawler_args is None:
         crawler_args = {}
 
+    if username and password:
+        crawler_args["auth"] = (username, password)
+
+    crawler = itsybitsy.crawl(base_url, **crawler_args)
+    base_url_normalized = next(crawler)
+    base_path = urlparse.urlparse(base_url_normalized).path
+
+    if isinstance(include, str):
+        include = [include]
+    if isinstance(exclude, str):
+        exclude = [exclude]
+
     with requests.Session() as session:
-        if username and password:
-            session.auth = (username, password)
-
-        if crawler_args.get("session") is None:
-            crawler_args["session"] = session
-
-        crawler = itsybitsy.crawl(base_url, **crawler_args)
-        base_url_normalized = next(crawler)
-        base_path = urlparse.urlparse(base_url_normalized).path
-
-        if isinstance(include, str):
-            include = [include]
-        if isinstance(exclude, str):
-            exclude = [exclude]
-
+        session.auth = (username, password)
         futures = set()
         with concurrent.futures.ThreadPoolExecutor(max_workers=download_jobs) as executor:
             for url in crawler:
