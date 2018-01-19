@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
+import versioneer
 
 setup(
     name='vito_download',
-    version='2.1',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description='Download from land.copernicus.vgt.vito.be/PDF/datapool',
     author='Jonas Solvsteen',
     author_email='josl@dhigroup.com',
