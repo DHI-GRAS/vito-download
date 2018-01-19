@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='vito_download',
-    version='2.0',
+    version='2.1',
     description='Download from land.copernicus.vgt.vito.be/PDF/datapool',
     author='Jonas Solvsteen',
     author_email='josl@dhigroup.com',
