@@ -92,7 +92,6 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     continue
 
                 target_localpath = os.path.normpath(file_path[len(base_path):])
-                target_fullpath = os.path.join(download_directory, target_localpath)
 
                 if (
                         include and not
@@ -105,13 +104,8 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     logger.debug(">> skipping due to exclude pattern")
                     continue
 
-                try:
-                    os.makedirs(os.path.dirname(target_fullpath))
-                except OSError:
-                    pass
-
                 logger.debug(">> downloading")
-                future = executor.submit(_download_file, url, target_fullpath, session)
+                future = executor.submit(_download_file, url, download_directory, session)
                 futures.add(future)
 
             if futures:
