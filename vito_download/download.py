@@ -92,6 +92,8 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     continue
 
                 target_localpath = os.path.normpath(file_path[len(base_path):])
+                target_fname = os.path.basename(target_localpath)
+                target_fullpath = os.path.join(download_directory, target_fname)
 
                 if (
                         include and not
@@ -105,7 +107,7 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     continue
 
                 logger.debug(">> downloading")
-                future = executor.submit(_download_file, url, download_directory, session)
+                future = executor.submit(_download_file, url, target_fullpath, session)
                 futures.add(future)
 
             if futures:
