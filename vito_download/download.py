@@ -17,26 +17,32 @@ import itsybitsy
 logger = logging.getLogger(__name__)
 
 
-def _download_file(url, target, session, max_retries=10):
+def _download_file(url, target, session, max_retries=10, skip_existing=True):
     """Download a single file"""
+    if skip_existing and os.path.isfile(target):
+        logger.debug('>>> using existing file %s', target)
+        return target
+    target_temp = target + '.incomplete'
     retries = 0
     while True:
         if retries >= max_retries:
             logger.warning("could not get file %s", url)
             break
         with session.get(url, stream=True) as response:
-            with open(target, "wb") as target_file:
+            with open(target_temp, "wb") as target_file:
                 shutil.copyfileobj(response.raw, target_file)
             data_length = response.raw.tell()
             if not data_length:
                 retries += 1
                 continue
             break
+    shutil.move(target_temp, target)
     return target
 
 
 def _recursive_download(base_url, download_directory=".", username=None, password=None,
-                        include=None, exclude=None, download_jobs=10, crawler_args=None):
+                        include=None, exclude=None, skip_existing=True,
+                        download_jobs=10, crawler_args=None):
     """Concurrent recursive downloader using the itsybitsy crawler
 
     Arguments
@@ -55,6 +61,8 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
     exclude : list of str or str
         Do not download files matching at least one of those glob patterns
         (default: download all files)
+    skip_existing : bool
+        skip existing files
     download_jobs : int
         Number of concurrent jobs used for downloading files (default: 10)
     crawler_args : dict
@@ -107,7 +115,8 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     continue
 
                 logger.debug(">> downloading")
-                future = executor.submit(_download_file, url, target_fullpath, session)
+                future = executor.submit(
+                    _download_file, url, target_fullpath, session, skip_existing)
                 futures.add(future)
 
             if futures:
@@ -115,7 +124,7 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     yield future.result()
 
 
-def download_data(url, username, password, download_dir='.', include='*.zip'):
+def download_data(url, username, password, download_dir='.', include='*.zip', skip_existing=True):
     """Download a URL tree recursively using itsybitsy
 
     Parameters
@@ -131,6 +140,8 @@ def download_data(url, username, password, download_dir='.', include='*.zip'):
     include : list of str or str
         Download only files matching at least one of those glob patterns
         (default: all .zip files)
+    skip_existing : bool
+        skip existing files
 
     Returns
     -------
@@ -150,4 +161,5 @@ def download_data(url, username, password, download_dir='.', include='*.zip'):
         username=username,
         password=password,
         include=include,
+        skip_existing=skip_existing,
         crawler_args=crawler_args)
