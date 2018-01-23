@@ -1,4 +1,3 @@
-import tempfile
 import logging
 import os.path
 import shutil
@@ -136,21 +135,23 @@ def download_data(url, username, password, download_dir='.', include='*.zip'):
     include : list of str or str
         Download only files matching at least one of those glob patterns
         (default: all .zip files)
-    """
 
+    Returns
+    -------
+    generator of str
+        yields paths to downloaded files
+    """
     crawler_args = dict(  # passed to itsybitsy
         only_go_deeper=True,
         max_depth=None,
         max_retries=10,
         timeout=100,
         strip_fragments=True,
-        max_connections=100
-    )
-
-    download_subdir = tempfile.mkdtemp(prefix='download_', dir=download_dir)
-    return _recursive_download(url,
-                               download_directory=download_subdir,
-                               username=username,
-                               password=password,
-                               include=include,
-                               crawler_args=crawler_args)
+        max_connections=100)
+    return _recursive_download(
+        url,
+        download_directory=download_dir,
+        username=username,
+        password=password,
+        include=include,
+        crawler_args=crawler_args)
