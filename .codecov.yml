@@ -1,3 +1,3 @@
 coverage:
   ignore:
-    - _version.py
+    - vito_download/_version.py

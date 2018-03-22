@@ -23,19 +23,22 @@ def _download_file(url, target, session, max_retries=10, skip_existing=True):
         logger.debug('>>> using existing file %s', target)
         return target
     target_temp = target + '.incomplete'
-    retries = 0
-    while True:
-        if retries >= max_retries:
-            logger.warning("could not get file %s", url)
-            break
+    response = None
+    success = False
+    for _ in range(max_retries):
         with session.get(url, stream=True) as response:
             with open(target_temp, "wb") as target_file:
                 shutil.copyfileobj(response.raw, target_file)
             data_length = response.raw.tell()
             if not data_length:
-                retries += 1
                 continue
-            break
+            else:
+                success = True
+                break
+    if response is not None:
+        response.raise_for_status()
+    if not success:
+        raise RuntimeError('Downloading {} failed.'.format(url))
     shutil.move(target_temp, target)
     return target
 
