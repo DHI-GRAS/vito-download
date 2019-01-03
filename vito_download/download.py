@@ -127,7 +127,8 @@ def _recursive_download(base_url, download_directory=".", username=None, passwor
                     yield future.result()
 
 
-def download_data(url, username, password, download_dir='.', include='*.zip', skip_existing=True):
+def download_data(url, username, password, download_dir='.',
+                  include='*.zip', skip_existing=True, download_jobs=10):
     """Download a URL tree recursively using itsybitsy
 
     Parameters
@@ -145,6 +146,8 @@ def download_data(url, username, password, download_dir='.', include='*.zip', sk
         (default: all .zip files)
     skip_existing : bool
         skip existing files
+    download_jobs : int
+        number of parallel downloads (threads)
 
     Returns
     -------
@@ -165,4 +168,6 @@ def download_data(url, username, password, download_dir='.', include='*.zip', sk
         password=password,
         include=include,
         skip_existing=skip_existing,
-        crawler_args=crawler_args)
+        crawler_args=crawler_args,
+        download_jobs=download_jobs
+    )
