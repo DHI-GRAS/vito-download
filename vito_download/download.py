@@ -1,5 +1,6 @@
+import os
+import time
 import logging
-import os.path
 import shutil
 import fnmatch
 import warnings
@@ -17,7 +18,7 @@ import itsybitsy
 logger = logging.getLogger(__name__)
 
 
-def _download_file(url, target, session, max_retries=10, skip_existing=True):
+def _download_file(url, target, session, max_retries=3, skip_existing=True):
     """Download a single file"""
     if skip_existing and os.path.isfile(target):
         logger.debug('>>> using existing file %s', target)
@@ -25,12 +26,14 @@ def _download_file(url, target, session, max_retries=10, skip_existing=True):
     target_temp = target + '.incomplete'
     response = None
     success = False
-    for _ in range(max_retries):
+    for n in range(max_retries):
         with session.get(url, stream=True) as response:
             with open(target_temp, "wb") as target_file:
                 shutil.copyfileobj(response.raw, target_file)
             data_length = response.raw.tell()
             if not data_length:
+                logger.debug('Waiting 2 seconds before retry')
+                time.sleep(2)
                 continue
             else:
                 success = True
@@ -38,7 +41,7 @@ def _download_file(url, target, session, max_retries=10, skip_existing=True):
     if response is not None:
         response.raise_for_status()
     if not success:
-        raise RuntimeError('Downloading {} failed.'.format(url))
+        raise RuntimeError('Downloading {} failed after {} attempts.'.format(url, n+1))
     shutil.move(target_temp, target)
     return target
 
