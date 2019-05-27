@@ -4,8 +4,8 @@ datapool_url = 'http://land.copernicus.vgt.vito.be/PDF/datapool/'
 
 product_base_urls = {
     'Water_Bodies_Global': 'Water/Water_Bodies/Water_Bodies_Global_V2',
-    'SWI': 'Vegetation/Soil_Water/SWI_V3',
-    'SWI10': 'Vegetation/Soil_Water/SWI10_V3',
+    'SWI': 'Vegetation/Soil_Water_Index/Daily_SWI_12.5km_Global_V3',
+    'SWI10': 'Vegetation/Soil_Water_Index/10-daily_SWI_12.5km_Global_V3',
     'SSM': 'Vegetation/Surface_Soil_Moisture/BioPar_SSM1km_V1_Global'
 }
 
