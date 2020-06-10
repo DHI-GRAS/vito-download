@@ -17,8 +17,11 @@ import vito_download as vito
 
 url = vito.build_url(product='SWI', year=2016, month=1, day=1)
 
-local_files = vito.download_data(url, username='user', password='pass',
-                                 download_dir='.', include='*.zip')
+local_files = list(
+    vito.download_data(
+        url, username='user', password='pass', download_dir='.', include='*.zip'
+    )
+)
 
 h5fname = vito.extract_h5(local_files[0], '.')
 
