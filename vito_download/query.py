@@ -1,10 +1,10 @@
 import posixpath
 
-from vito_download.config import datapool_url, product_base_urls
+from vito_download.config import datapool_urls, product_base_urls
 
 
 def get_product_url(product):
-    return posixpath.join(datapool_url, product_base_urls[product])
+    return posixpath.join(datapool_urls[product], product_base_urls[product])
 
 
 def build_url(product, year, month=None, day=None, extent={}):
