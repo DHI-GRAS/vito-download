@@ -1,5 +1,5 @@
 # vito_download
-Download from http://land.copernicus.vgt.vito.be/PDF/datapool
+Download from the vito datapool websites http://land.copernicus.vgt.vito.be/PDF/datapool and https://www.vito-eodata.be/PDF/datapool/
 
 ## Installation
 
@@ -14,17 +14,16 @@ To use the `read_h5` module, you also need `xarray` and `netCDF4`.
 
 ```
 import vito_download as vito
+import xarray as xr
 
 url = vito.build_url(product='SWI', year=2016, month=1, day=1)
 
-local_files = vito.download_data(url, username='user', password='pass',
-                                 download_dir='.', include='*.zip')
+local_files = vito.download_data(url, username='USERNAME', password='PASSWORD',
+                                 download_dir='.', include='*.nc')
 
-h5fname = vito.extract_h5(local_files[0], '.')
+dataset = xr.open_dataset(list(local_files)[0])
 
-from vito_download.read_h5 import read_h5  # requires netCDF4 and xarray
-
-data = read_h5(h5fname, group='SWI', varn='SWI_100')
+data = dataset['SWI_010'].values.squeeze()
 ```
 
 ## Extent

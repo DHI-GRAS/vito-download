@@ -6,7 +6,7 @@ def extract_h5(zipfname, outdir):
     h5fname = None
     with ZipFile(zipfname, 'r') as zf:
         for member in zf.infolist():
-            if member.filename.endswith("h5"):
+            if member.filename.endswith("h5") or member.filename.endswith("HDF5"):
                 h5fname = zf.extract(member, outdir)
                 break
     if h5fname is None:

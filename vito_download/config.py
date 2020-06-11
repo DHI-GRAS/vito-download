@@ -1,22 +1,12 @@
 import datetime
 
-datapool_urls = {
-    'Water_Bodies_Global': 'http://land.copernicus.vgt.vito.be/PDF/datapool/',
-    'SWI': 'http://land.copernicus.vgt.vito.be/PDF/datapool/',
-    'SWI10': 'http://land.copernicus.vgt.vito.be/PDF/datapool/',
-    'SSM': 'http://land.copernicus.vgt.vito.be/PDF/datapool/',
-    'Proba-V-NDVI': 'https://www.vito-eodata.be/PDF/datapool/',
-    'Proba-V': 'https://www.vito-eodata.be/PDF/datapool/'
-
-}
-
-product_base_urls = {
-    'Water_Bodies_Global': 'Water/Water_Bodies/Water_Bodies_Global_V2',
-    'SWI': 'Vegetation/Soil_Water_Index/Daily_SWI_12.5km_Global_V3',
-    'SWI10': 'Vegetation/Soil_Water_Index/10-daily_SWI_12.5km_Global_V3',
-    'SSM': 'Vegetation/Surface_Soil_Moisture/BioPar_SSM1km_V1_Global',
-    'Proba-V-NDVI': 'Free_Data/PROBA-V_100m/S1_TOC_NDVI_100_m__C1',
-    'Proba-V': 'Free_Data/PROBA-V_100m/S1_TOC_100_m_C1'
+product_url = {
+    'Water_Bodies_Global': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Water/Water_Bodies/Water_Bodies_Global_V2',
+    'SWI': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Soil_Water_Index/Daily_SWI_12.5km_Global_V3',
+    'SWI10': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Soil_Water_Index/10-daily_SWI_12.5km_Global_V3',
+    'SSM': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Surface_Soil_Moisture/BioPar_SSM1km_V1_Global',
+    'Proba-V-NDVI': 'https://www.vito-eodata.be/PDF/datapool/Free_Data/PROBA-V_100m/S1_TOC_NDVI_100_m__C1',
+    'Proba-V': 'https://www.vito-eodata.be/PDF/datapool/Free_Data/PROBA-V_100m/S1_TOC_100_m_C1'
 }
 
 timestep_days = {
