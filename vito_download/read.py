@@ -8,7 +8,7 @@ import netCDF4
 import xarray as xr
 
 
-def get_lon_lat(ds, datashape, gridkw={}):
+def get_lon_lat(ds, datashape, gridkw=None):
     """Create lon and lat axes for datashape and ds
 
     Parameters
@@ -20,6 +20,8 @@ def get_lon_lat(ds, datashape, gridkw={}):
     gridkw : dict
         grid specifications to override dataset info
     """
+    if gridkw is None:
+        gridkw = {}
     nlat, nlon = datashape
 
     lon0 = gridkw.get('lon0', ds.LONG)
