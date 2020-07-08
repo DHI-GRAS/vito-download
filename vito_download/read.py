@@ -53,7 +53,7 @@ def date_from_h5fname(fname):
     return datetime.datetime.strptime(datestr, '%Y%m%d')
 
 
-def read_h5(h5fname, group, varn, gridkw={}):
+def read_h5(h5fname, group, varn, gridkw=None):
     """Get data from a Copernicus HDF5 file
 
     Parameters
@@ -64,7 +64,7 @@ def read_h5(h5fname, group, varn, gridkw={}):
         group and variable in HDF file
     outfname : str
         path to output file to be created
-    gridkw : dict
+    gridkw : dict, optional
         grid definition res_deg, lon0, lat0
         will be retrieved from HDF file if not provided
 
@@ -72,6 +72,8 @@ def read_h5(h5fname, group, varn, gridkw={}):
     -------
     xarray.Dataset
     """
+    if gridkw is None:
+        gridkw = {}
     with netCDF4.Dataset(h5fname) as dsin:
         datavar = dsin.groups[group].variables[varn]
 
