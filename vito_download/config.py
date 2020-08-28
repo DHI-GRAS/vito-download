@@ -23,6 +23,6 @@ timeseries_startdate = {
     'SWI': datetime.datetime(2007, 8, 1),
     'SWI10': datetime.datetime(2007, 8, 1),
     'SSM': datetime.datetime(2015, 1, 1),
-    'Proba-V-NDVI': datetime.datetime(2014, 3, 12),
-    'Proba-V': datetime.datetime(2014, 3, 12)
+    'Proba-V-NDVI': datetime.datetime(2014, 3, 11),
+    'Proba-V': datetime.datetime(2014, 3, 11)
 }
