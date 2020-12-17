@@ -1,7 +1,7 @@
 import datetime
 
 product_url = {
-    'Water_Bodies_Global': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Water/Water_Bodies/Water_Bodies_Global_V2',
+    'Water_Bodies_Global': 'https://land.copernicus.vgt.vito.be/PDF/datapool/Water/Water_Bodies/Water_Bodies_1km_Global_V2',
     'SWI': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Soil_Water_Index/Daily_SWI_12.5km_Global_V3',
     'SWI10': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Soil_Water_Index/10-daily_SWI_12.5km_Global_V3',
     'SSM': 'http://land.copernicus.vgt.vito.be/PDF/datapool/Vegetation/Surface_Soil_Moisture/BioPar_SSM1km_V1_Global',
